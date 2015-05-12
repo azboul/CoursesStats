@@ -45,7 +45,7 @@ $genQuery->finalize();
 <!-- Entête
 ================================================== -->
 			<div class="page-header">
-				<div class="row">
+				<div class="row"  >
 					<h1>Statistiques de course</h1>
 					<p>(<?php echo $createDate ?>)</p>
 				</div>
@@ -54,14 +54,24 @@ $genQuery->finalize();
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<ul class="list-group">
-						<li class="list-group-item"><b>Distance totale : </b><?php echo $sumDist ?> km</li>
-						<li class="list-group-item"><b>Temps total : </b><?php echo $sumTime?></li>
-					</ul>
-					
+				<ul class="list-group">	
+					<li class="list-group-item 	active"><b>Résumé</b></li>
+					<dl class="dl-horizontal" >
+						<li class="list-group-item">
+							<dt>Distance totale</dt>
+							<dd><?php echo $sumDist ?> km</dd>
+						</li>
+						<li class="list-group-item">
+							<dt>Temps total</dt>
+							<dd><?php echo $sumTime ?></dd>	
+						</li>
+					</dl>			
+				</ul>			
 				</div>
 				<div class="col-md-4"></div>
 			</div>
+			
+			
 			
 			<div class="row">
 <!-- Historique
@@ -137,11 +147,10 @@ $allDBQuery->finalize();
 
 				<div class="col-md-4">
 					<!--<h2>Nouveau</h2>-->
-					
-<div role="tabpanel">
+<div role="tabpanel" >
 
   <!-- Nav tabs -->
-  <ul class="nav nav-tabs nav-pills" role="tablist">
+  <ul class="nav nav-pills " role="tablist">
     <li role="presentation" class="active"><a href="#AjoutSortie" aria-controls="AjoutSortie" role="tab" data-toggle="tab">Sortie</a></li>
     <li role="presentation"><a href="#AjoutParcours" aria-controls="AjoutParcours" role="tab" data-toggle="tab">Parcours</a></li>
  </ul>
@@ -149,7 +158,7 @@ $allDBQuery->finalize();
  	<br />
  
   <!-- Tab panes -->
-  <div class="tab-content">
+  <div class="tab-content ">
     <div role="tabpanel" class="tab-pane active" id="AjoutSortie">
 	
 					<form action="record_Sortie.php" method="post" class="form-horizontal">
@@ -212,6 +221,7 @@ $nomParcoursQuery->finalize();
 	
 	</div>
   </div>
+</div>  
 
 </div>					
   <!--					
@@ -310,7 +320,6 @@ $nomParcoursQuery->finalize();
 					</div>					
 						
 					</div>
-				</div>
 			</div>
 
 			<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
