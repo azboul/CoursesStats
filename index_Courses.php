@@ -19,7 +19,6 @@ catch(Exception $e) {
         <meta charset="utf-8" />
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    
-        <link rel="stylesheet" type="text/css" href="style.css" />
         <!--<link rel="stylesheet" type="text/css" media="all" href="http://assets.ubuntu.com/sites/guidelines/css/latest/ubuntu-styles.css"/>-->
 		
         <!-- Latest compiled and minified CSS -->
@@ -27,6 +26,8 @@ catch(Exception $e) {
 
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+        <link rel="stylesheet" type="text/css" href="style.css" />
 		</head>
     <body>
     	<div class="container">
@@ -57,6 +58,7 @@ $genQuery->finalize();
 						<li class="list-group-item"><b>Distance totale : </b><?php echo $sumDist ?> km</li>
 						<li class="list-group-item"><b>Temps total : </b><?php echo $sumTime?></li>
 					</ul>
+					
 				</div>
 				<div class="col-md-4"></div>
 			</div>
@@ -65,10 +67,17 @@ $genQuery->finalize();
 <!-- Historique
 ================================================== -->			
 				<div class="col-md-8">
-					<h2 class="sub-header">Historique</h2>
-					<form action="refresh_Table.php" method="post">
-						<input type="submit" value="Rafraichir">
-					</form>
+				
+
+
+			
+				
+<h2>Historique <span><form action="refresh_Table.php" method="post" class="no-linebreak">
+						<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+					</form></span></h2>				
+				
+					<br />
+					<br />					
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
@@ -127,20 +136,98 @@ $allDBQuery->finalize();
 ================================================== -->
 
 				<div class="col-md-4">
+					<!--<h2>Nouveau</h2>-->
+					
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs nav-pills" role="tablist">
+    <li role="presentation" class="active"><a href="#AjoutSortie" aria-controls="AjoutSortie" role="tab" data-toggle="tab">Sortie</a></li>
+    <li role="presentation"><a href="#AjoutParcours" aria-controls="AjoutParcours" role="tab" data-toggle="tab">Parcours</a></li>
+ </ul>
+
+ 	<br />
+ 
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="AjoutSortie">
+	
+					<form action="record_Sortie.php" method="post" class="form-horizontal">
+							<fieldset>
+								<div class="form-group">
+									<label for="sortieDate" class="col-sm-3 control-label">Date</label>
+									<div class="col-sm-9"><input name="sortieDate" id="sortieDate" type="date" tabIndex="1" placeholder="JJ/MM/YYYY"></div>
+								</div>
+								<div class="form-group">
+									<label for="sortieId" class="col-sm-3 control-label">Parcours</label>
+									<div class="col-sm-9"><select name="sortieId" id="sortieId" tabIndex="2" class="form-control">
+							
+<?php
+$nomParcoursQuery = $theDatabase->query('select Nom from Parcours');
+while ($row = $nomParcoursQuery->fetchArray()) {
+?>
+										<option ><?php echo( htmlspecialchars($row[0]));?></option>
+<?php	
+}
+$nomParcoursQuery->finalize();
+?>								
+									</select></div>
+								</div>
+								<div class="form-group">	
+									<label for="sortieTime" class="col-sm-3 control-label">Temps</label>
+									<div class="col-sm-9"><input name="sortieTime" id="sortieTime" type="time" tabIndex="3" placeholder="HH:MM:SS"></div>
+								</div>
+								<div class="form-group">
+									<label for="sortieComment" class="col-sm-3 control-label">Note</label>
+									<div class="col-sm-9"><textarea name="sortieComment" id="sortieComment" cols="20" rows="6" tabIndex="4" class="form-control"></textarea></div>
+								</div>
+								<p class="text-center"><input class="btn btn-primary" type="submit" value="Ajouter la sortie" tabindex="5"></p>
+							</fieldset>
+						</form>
+						
+	
+	</div>
+    <div role="tabpanel" class="tab-pane " id="AjoutParcours">
+	
+						<form action="record_Parcours.php" method="post" class="form-horizontal">
+								<div class="form-group">
+									<label for="parcoursNom" class="col-sm-3 control-label">Nom</label>
+									<div class="col-sm-9"><input name="parcoursNom" id="parcoursNom" tabIndex="6"></div>
+								</div>
+								<div class="form-group">
+									<label for="parcoursLieux" class="col-sm-3 control-label">Lieux</label>
+									<div class="col-sm-9"><input name="parcoursLieux" id="parcoursLieux" tabIndex="7" autocomplete="on"></div>
+								</div>
+								<div class="form-group">
+									<label for="parcoursDistance" class="col-sm-3 control-label">Distance</label>
+									<div class="col-sm-9"><input name="parcoursDistance" id="parcoursDistance" tabIndex="8"></div>
+								</div>
+								<div class="form-group">
+									<label for="parcoursComment" class="col-sm-3 control-label">Note</label>
+									<div class="col-sm-9"><textarea name="parcoursComment" id="parcoursComment" cols="20" rows="6" tabIndex="9" class="form-control"></textarea></div>
+								</div>
+				
+								<p class="text-center"><input class="btn btn-primary" type="submit" value="Ajouter le parcours" tabindex="10"></p>							
+						</form>	
+	
+	</div>
+  </div>
+
+</div>					
+  <!--					
+					
 					<div>
 						
-<div class="accordion" id="accordion2">
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">						
-						
-						<h2>Ajout d'une sortie</h2>
-						
-      </a>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Ajout d'une sortie						
+        </a>
+      </h4>
     </div>
-    <div id="collapseOne" class="accordion-body collapse in">
-      <div class="accordion-inner">						
-						
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">						
 						<form action="record_Sortie.php" method="post"><a name="record_Sortie"></a>
 							<fieldset>
 								<div class="form-group">
@@ -174,19 +261,22 @@ $nomParcoursQuery->finalize();
 							</fieldset>
 						</form>
 						
+						</div>
+						
       </div>
     </div>
   </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">						
-						
-						<h2>Ajout d'un parcours</h2><a name="record_Parcours"></a>
-						
-      </a>
-    </div>
-    <div id="collapseTwo" class="accordion-body collapse">
-      <div class="accordion-inner">						
+  
+
+					  <div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="headingTwo">
+						  <h4 class="panel-title">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Ajout d'un parcours						
+							</a>
+						  </h4>
+						</div>
+						<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+						  <div class="panel-body">						
 						
 						<form action="record_Parcours.php" method="post">
 							<fieldset>
@@ -210,12 +300,14 @@ $nomParcoursQuery->finalize();
 								<input class="btn btn-primary" type="submit" value="Ajouter le parcours" tabindex="10">							
 							</fieldset>
 						</form>
-						
+					
       </div>
     </div>
   </div>
 </div>						
-						
+-->						
+				
+					</div>					
 						
 					</div>
 				</div>
@@ -224,7 +316,7 @@ $nomParcoursQuery->finalize();
 			<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 			<!-- Include all compiled plugins (below), or include individual files as needed -->
-			<script src="js/bootstrap.min.js"></script>		
+			<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		</div>
     </body>
 </html>
