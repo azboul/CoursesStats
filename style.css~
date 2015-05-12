@@ -5,6 +5,8 @@
     border-radius: 2px;
 }
 
+/*******************************/
+
 body {
   background-color:#F5F5F0;
   line-height: 16px;
