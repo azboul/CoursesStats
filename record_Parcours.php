@@ -27,12 +27,20 @@ catch(Exception $e) {
 
 // Nom du parcours
 $theParcours = htmlspecialchars($_POST['parcoursNom']);
-$parcoursQuery = $theDatabase->prepare('SELECT * FROM Parcours WHERE Nom = "' . $theParcours . '"');
-$parcoursQuery->execute();
-while ($row = $parcoursQuery->fetchArray()) {
+echo ' query : ';
+return;
+$parcoursQuery = $theDatabase->query('SELECT * FROM Parcours WHERE Nom = "Lyon Quai 1"');
+//$parcoursQuery->execute();
+echo ' query : ';
+return;
+if ($parcoursQuery->numColumns() && $parcoursQuery->columnType(0) != SQLITE3_NULL) { 
+{
     die('Le parcours existe déja !');
 }
-$parcoursQuery->finalize();
+
+//$parcoursQuery->finalize();
+echo $theParcours;
+return;
 
 // Lieux
 $parcoursLieux = htmlspecialchars($_POST['parcoursLieux']);
@@ -45,8 +53,11 @@ if( !is_numeric($parcoursDistance))
 // Commentaire
 $parcoursComment = htmlspecialchars($_POST['parcoursComment']);
 
+return;
+
 // Insertion du message à l'aide d'une requête préparée
 try {
+	/*
 	$finalReq = $theDatabase->prepare('INSERT INTO Parcours (Nom, Lieux, Distance, Note) VALUES(?, ?, ?, ?)');
 	$finalReq->bindValue(1, $theParcours);
 	$finalReq->bindValue(2, $parcoursLieux);
@@ -59,6 +70,16 @@ try {
 		die($theDatabase->lastErrorMsg());
 	}
 	$finalReq->finalize();
+	*/
+	
+	$query = 'INSERT INTO Parcours (Nom, Lieux, Distance, Note) VALUES("'.$theParcours.'", "'.$parcoursLieux.'", '.$parcoursDistance.', "'.$parcoursComment.'")';
+	$isOk = $theDatabase->exec($query);
+	
+	if(!$isOk) {
+		die('Erreur : ' . $theDatabase->lastErrorMsg());
+	} else {
+		echo 'No error';
+	}	
 }
 catch(Exception $e) {
 	echo( $e->getMessage());
@@ -67,5 +88,5 @@ catch(Exception $e) {
 
 echo('requete enregistrée avec succès !');
 
-header('Location: index_Courses.php');
+//header('Location: index_Courses.php');
 ?>

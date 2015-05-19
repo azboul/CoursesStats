@@ -5,11 +5,31 @@
     border-radius: 2px;
 }
 
-/*******************************/
+body {
+  background-color:black;	/*#F5F5F0;*/
+  line-height: 16px;
+  padding-top: 60px; 
+}
 
 body {
-  background-color:#F5F5F0;
-  line-height: 16px;
+/*  padding-top: 60px;*/
+}
+@media (max-width: 979px) {
+  body {
+    /*padding-top: 0px;*/
+  }
+}
+
+header {
+    text-align: center;
+    color: #FFF;
+    background: #E38D13 none repeat scroll 0% 0%;
+}
+
+header .container {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  	background-color:#E38D13;    
 }
 
 .nav-pills {
@@ -27,4 +47,16 @@ body {
 .nav-pills > li.active > a:focus
 {
   border-radius: 1px;
+}
+
+.sortiesSection {
+	color: white;
+	background: #293846 none repeat scroll 0% 0%;
+}
+
+
+.parcoursSection {
+	background-color: #1AB394;
+border-color: #1AB394;
+color: #FFF;
 }
