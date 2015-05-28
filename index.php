@@ -42,8 +42,6 @@ $queryAllParcours = $theDatabase->query('Select Nom, Lieux, Distance, Note from 
 
         <!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
@@ -119,7 +117,7 @@ $queryAllParcours = $theDatabase->query('Select Nom, Lieux, Distance, Note from 
                         <div class="text-center formS">
                             <button class="btn-sorties btn-lg" onclick="javascript:unhide('formSortie');" ><span class="glyphicon glyphicon-plus-sign"></span> Nouvelle sortie</button>
                         </div>
-                        <div id="formSortie"class="hidden">
+                        <div id="formSortie" class="hidden">
                             <div class="panel panel-default formSortie">
                                 <div class="panel-body">
 									<form action="record_Sortie.php" method="post" class="form-horizontal">
@@ -195,9 +193,9 @@ while ($row = $queryAllSorties->fetchArray()) {
                                                     </p>
 													</td>
 													<td>
-                                                        <p>
+                                                        <p><b>
                                                             <?php echo(htmlspecialchars($parcours));?>
-                                                            <small ><?php echo(htmlspecialchars($distance));?> km </small>
+                                                        </b><small ><?php echo(htmlspecialchars($distance));?> km </small>
                                                         </p>
 													</td>
 													<td><?php echo(htmlspecialchars($temps));?></td>
@@ -297,7 +295,7 @@ while ($row = $queryAllParcours->fetchArray()) {
 	$distance = $row['Distance'];
 ?>
 										<tr>
-											<td><h4><?php echo(htmlspecialchars($nom));?> <small><?php echo(htmlspecialchars($lieux));?> <small></h4></td>
+											<td><h4><?php echo(htmlspecialchars($nom));?> <small><?php echo(htmlspecialchars($lieux));?> </small></h4></td>
 											<td><i><?php echo(htmlspecialchars($distance));?> km</i></td>
 											<td><?php echo(htmlspecialchars($comment));?></td>
 										</tr>
@@ -307,10 +305,10 @@ while ($row = $queryAllParcours->fetchArray()) {
 							</div>
 						</div> <!-- div row -->
     				</div>	<!--col-md-8-->
-    			</div>
-    		</div>	<!-- row -->
-        </div>  <!--container-->
+        		</div>	<!-- row -->
+            </div>  <!--container-->
         </section>
+
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
