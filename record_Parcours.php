@@ -1,4 +1,16 @@
 <?php
+/*
+ * Effectue la requete d'ajout dans la base
+ * Et redirige sur l'acceuil
+ */
+
+$IS_DEBUG=false;
+
+function DieWithMessage($msg)
+{
+    echo('<br>'.$msg.'<br>');
+    die('<a href="index.php">Retour au sommaire</a><br>');
+}
 
 function getArgType($arg)
 {
@@ -14,79 +26,97 @@ function getArgType($arg)
     }
 }
 
-// Effectue la requete d'ajout dans la base
-// Et redirige sur index_Courses.hp
-
 // Connection à la base de donnée
 try {
 	$theDatabase = new SQLite3('db/database.db');
 }
 catch(Exception $e) {
-	die('Erreur : '.$e->getMessage());
+    DieWithMessage($e->getMessage());
 }
 
 // Nom du parcours
 $theParcours = htmlspecialchars($_POST['parcoursNom']);
-echo ' query : ';
-return;
-$parcoursQuery = $theDatabase->query('SELECT * FROM Parcours WHERE Nom = "Lyon Quai 1"');
-//$parcoursQuery->execute();
-echo ' query : ';
-return;
-if ($parcoursQuery->numColumns() && $parcoursQuery->columnType(0) != SQLITE3_NULL) { 
-{
-    die('Le parcours existe déja !');
-}
+if( $IS_DEBUG)
+    echo('<br> Parcours : ' . $theParcours);
 
-//$parcoursQuery->finalize();
-echo $theParcours;
-return;
+// Vitesse
+if( $IS_DEBUG)
+    echo('<br> Vitesse : ' . $theSpeed);
 
 // Lieux
 $parcoursLieux = htmlspecialchars($_POST['parcoursLieux']);
+if( $IS_DEBUG)
+    echo('<br> Lieux : ' . $parcoursLieux);
 
 // Distance
 $parcoursDistance = htmlspecialchars($_POST['parcoursDistance']);
-if( !is_numeric($parcoursDistance))
-	die('La distance n\'est pas un nombre valide !');
-	
+
+if( $IS_DEBUG)
+    echo('<br> Distance : ' . $parcoursDistance);
+
 // Commentaire
 $parcoursComment = htmlspecialchars($_POST['parcoursComment']);
+if( $IS_DEBUG)
+    echo('<br> Commentaire : ' . $parcoursComment);
 
-return;
+// Test validité du parcours
+try
+{
+    $parcoursQuery = $theDatabase->query('SELECT * FROM  Parcours WHERE Nom="' . $theParcours  . '" ');
+}
+catch(Exception $e)
+{
+        echo( $e->getMessage());
+}
+
+if ( $parcoursQuery->fetchArray()[0] != null )
+{
+    DieWithMessage('Le parcours existe déja !');
+}
+$parcoursQuery->finalize();
+
+// Validité de la distance
+if( !is_numeric($parcoursDistance))
+    DieWithMessage('La distance n\'est pas un nombre valide !');
 
 // Insertion du message à l'aide d'une requête préparée
-try {
-	/*
-	$finalReq = $theDatabase->prepare('INSERT INTO Parcours (Nom, Lieux, Distance, Note) VALUES(?, ?, ?, ?)');
-	$finalReq->bindValue(1, $theParcours);
-	$finalReq->bindValue(2, $parcoursLieux);
-	$finalReq->bindValue(3, $parcoursDistance);
-	$finalReq->bindValue(4, $parcoursComment);
-	
-	$isOk = $finalReq->execute();
-	
-	if(!$isOk) {
-		die($theDatabase->lastErrorMsg());
-	}
-	$finalReq->finalize();
-	*/
-	
-	$query = 'INSERT INTO Parcours (Nom, Lieux, Distance, Note) VALUES("'.$theParcours.'", "'.$parcoursLieux.'", '.$parcoursDistance.', "'.$parcoursComment.'")';
-	$isOk = $theDatabase->exec($query);
-	
-	if(!$isOk) {
-		die('Erreur : ' . $theDatabase->lastErrorMsg());
-	} else {
-		echo 'No error';
-	}	
-}
-catch(Exception $e) {
-	echo( $e->getMessage());
-	die('Erreur : ' . $e->getMessage());
+if( !$IS_DEBUG )
+{
+    try {
+    	/*
+    	$finalReq = $theDatabase->prepare('INSERT INTO Parcours (Nom, Lieux, Distance, Note) VALUES(?, ?, ?, ?)');
+    	$finalReq->bindValue(1, $theParcours);
+    	$finalReq->bindValue(2, $parcoursLieux);
+    	$finalReq->bindValue(3, $parcoursDistance);
+    	$finalReq->bindValue(4, $parcoursComment);
+
+    	$isOk = $finalReq->execute();
+
+    	if(!$isOk) {
+    		die($theDatabase->lastErrorMsg());
+    	}
+    	$finalReq->finalize();
+    	*/
+
+    	$query = 'INSERT INTO Parcours (Nom, Lieux, Distance, Note) VALUES("'.$theParcours.'", "'.$parcoursLieux.'", '.$parcoursDistance.', "'.$parcoursComment.'")';
+    	$isOk = $theDatabase->exec($query);
+
+    	if(!$isOk)
+        {
+            DieWithMessage('Erreur : ' . $theDatabase->lastErrorMsg());
+    	}
+         else
+        {
+    		echo 'No error';
+    	}
+    }
+    catch(Exception $e) {
+        DieWithMessage('Erreur : ' . $e->getMessage());
+    }
+
+    header('Location: refresh.php');
 }
 
-echo('requete enregistrée avec succès !');
-
-//header('Location: index_Courses.php');
+if( $IS_DEBUG )
+    echo ('<br > Record ok !' . '<br /><a href="index.php">Retour au sommaire</a>');
 ?>

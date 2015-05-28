@@ -36,7 +36,7 @@ $queryAllParcours = $theDatabase->query('Select Nom, Lieux, Distance, Note from 
 <html>
     <head>
         <title>Statistiques de course</title>
-        <link rel="icon" href="favicon.ico" />
+        <link rel="icon" href="favicon.ico?v=2" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
